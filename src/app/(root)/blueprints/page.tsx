@@ -4,6 +4,7 @@ import TitleCard from "@/components/TitleCard";
 import { TypographyH3 } from "@/components/TypographyH3";
 import { redirect } from "next/navigation";
 import { BreadcrumbCollapsed } from "@/components/Breadcrumb";
+import { Content } from "@/types/content";
 
 export default async function Blueprints() {
   const supabase = await createClient();
@@ -12,13 +13,17 @@ export default async function Blueprints() {
     { data: contents, error: contentsError },
     { data: user, error: authError },
   ] = await Promise.all([
-    supabase.from("contents").select("*").eq("is_blueprint", true),
+    supabase
+      .from("contents")
+      .select("*, categories(*), creators(*)")
+      .eq("is_blueprint", true),
     supabase.auth.getUser(),
   ]);
 
   if (authError) {
     redirect("/login");
   }
+  const typedContents = contents as Content[];
 
   return (
     <>
@@ -29,8 +34,8 @@ export default async function Blueprints() {
       <div className="mt-12">
         <TypographyH3>All Blueprints</TypographyH3>
         <div className="pt-12 grid grid-cols-3 gap-12">
-          {contents?.map((content) => (
-            <BlueprintCard contents={content} key={content.id} />
+          {typedContents?.map((content) => (
+            <BlueprintCard content={content} key={content.content_id} />
           ))}
         </div>
       </div>
