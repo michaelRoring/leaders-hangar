@@ -31,14 +31,14 @@ export function BlueprintCard({ content }: { content: Content }) {
         <img
           src={content?.image_url}
           alt="blueprint"
-          className="rounded-2xl h-52"
+          className="rounded-2xl h-52 object-center object-contain ml-5"
         />
         <CardHeader>
           <CardTitle>{content?.content_title}</CardTitle>
           <CardDescription>{content?.short_description}</CardDescription>
         </CardHeader>
       </CardContent>
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex justify-between ">
         <img
           src={
             content?.creators?.company_logo ||

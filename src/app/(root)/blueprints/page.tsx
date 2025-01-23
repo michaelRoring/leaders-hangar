@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import TitleCard from "@/components/TitleCard";
 import { TypographyH3 } from "@/components/TypographyH3";
 import { redirect } from "next/navigation";
-import { BreadcrumbCollapsed } from "@/components/Breadcrumb";
+import { DynamicBreadcrumb } from "@/components/Breadcrumb";
 import { Content } from "@/types/content";
 
 export default async function Blueprints() {
@@ -23,11 +23,13 @@ export default async function Blueprints() {
   if (authError) {
     redirect("/login");
   }
+
   const typedContents = contents as Content[];
 
   return (
     <>
-      <BreadcrumbCollapsed />
+      <DynamicBreadcrumb />
+
       <TitleCard
         firstName={user?.user?.user_metadata?.first_name || "John Doe"}
       />
