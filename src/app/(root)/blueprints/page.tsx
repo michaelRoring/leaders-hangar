@@ -3,7 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import TitleCard from "@/components/TitleCard";
 import { TypographyH3 } from "@/components/TypographyH3";
 import { redirect } from "next/navigation";
-import { BreadcrumbCollapsed } from "@/components/Breadcrumb";
+import { DynamicBreadcrumb } from "@/components/Breadcrumb";
+import { Content } from "@/types/content";
 
 export default async function Blueprints() {
   const supabase = await createClient();
@@ -12,7 +13,10 @@ export default async function Blueprints() {
     { data: contents, error: contentsError },
     { data: user, error: authError },
   ] = await Promise.all([
-    supabase.from("contents").select("*").eq("is_blueprint", true),
+    supabase
+      .from("contents")
+      .select("*, categories(*), creators(*)")
+      .eq("is_blueprint", true),
     supabase.auth.getUser(),
   ]);
 
@@ -20,17 +24,20 @@ export default async function Blueprints() {
     redirect("/login");
   }
 
+  const typedContents = contents as Content[];
+
   return (
     <>
-      <BreadcrumbCollapsed />
+      <DynamicBreadcrumb />
+
       <TitleCard
         firstName={user?.user?.user_metadata?.first_name || "John Doe"}
       />
-      <div className="mt-12">
+      <div className="mt-12 ">
         <TypographyH3>All Blueprints</TypographyH3>
-        <div className="pt-12 grid grid-cols-3 gap-12">
-          {contents?.map((content) => (
-            <BlueprintCard contents={content} key={content.id} />
+        <div className="w-fit  mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
+          {typedContents?.map((content) => (
+            <BlueprintCard content={content} key={content.content_id} />
           ))}
         </div>
       </div>
