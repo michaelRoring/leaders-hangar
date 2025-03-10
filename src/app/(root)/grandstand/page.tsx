@@ -15,11 +15,12 @@ export default async function Dashboard() {
 
   return (
     <>
-      <TypographyH1>This is grand stand page</TypographyH1>
-      <h1>Hello, {data.user?.email}</h1>
+      <TypographyH1>Grand Stand</TypographyH1>
       <h1>Hello, {data.user?.user_metadata?.first_name}</h1>
 
-      <LogoutButton />
+      <div className="mt-24">
+        <LogoutButton />
+      </div>
     </>
   );
 }

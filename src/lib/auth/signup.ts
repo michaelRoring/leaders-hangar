@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "../supabase/server";
 import { AuthResponse, AuthError } from "@supabase/supabase-js";
 
 interface SignupResponse {
@@ -12,6 +12,8 @@ export default async function Signup(
   first_name: string,
   last_name: string
 ): Promise<SignupResponse> {
+  const supabase = await createClient();
+
   try {
     const { data, error } = await supabase.auth.signUp({
       email,
