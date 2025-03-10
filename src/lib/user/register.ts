@@ -1,4 +1,5 @@
-import { supabase } from "@/lib/supabase/client";
+// import { supabase } from "@/lib/supabase/client";
+import { createClient } from "../supabase/client";
 import { AuthResponse, AuthError } from "@supabase/supabase-js";
 import { UserRegister } from "@/types/userRegister";
 
@@ -11,6 +12,7 @@ export default async function Register(
   userData: UserRegister
 ): Promise<SignupResponse> {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from("users")
       .insert([userData])

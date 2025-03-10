@@ -32,23 +32,7 @@ const data = {
     email: "abbiyu@devhaus.com.sg",
     avatar: "/avatars/shadcn.jpg",
   },
-  // teams: [
-  //   {
-  //     name: "Acme Inc",
-  //     logo: GalleryVerticalEnd,
-  //     plan: "Enterprise",
-  //   },
-  //   {
-  //     name: "Acme Corp.",
-  //     logo: AudioWaveform,
-  //     plan: "Startup",
-  //   },
-  //   {
-  //     name: "Evil Corp.",
-  //     logo: Command,
-  //     plan: "Free",
-  //   },
-  // ],
+
   deepWorkZoneTemplate: [
     {
       title: "Deep work zone",
@@ -58,7 +42,7 @@ const data = {
       items: [
         {
           title: "Courses",
-          url: "#",
+          url: "/courses",
         },
         {
           title: "Blueprints",
@@ -66,7 +50,7 @@ const data = {
         },
         {
           title: "Guides",
-          url: "#",
+          url: "/guides",
         },
       ],
     },
@@ -78,10 +62,13 @@ const data = {
       icon: Frame,
       isActive: false,
       items: [
-        { title: "Plan", url: "#" },
-        { title: "SEO calculator", url: "#" },
-        { title: "ABM calculator", url: "#" },
-        { title: "Paid ads calculator", url: "#" },
+        { title: "ROI calculator", url: "/roi-calculator" },
+        { title: "Runway calculator", url: "/runway-calculator" },
+        { title: "Advance ROI calculator", url: "/advance-roi-calculator" },
+        {
+          title: "Advance Runway calculator",
+          url: "/advance-runway-calculator",
+        },
       ],
     },
   ],
@@ -91,24 +78,24 @@ const data = {
       url: "/grandstand",
       icon: Frame,
     },
-    {
-      name: "Pinned",
-      url: "#",
-      icon: PieChart,
-    },
+    // {
+    //   name: "Pinned",
+    //   url: "#",
+    //   icon: PieChart,
+    // },
   ],
-  menu1: [
-    {
-      name: "Repository",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Documents",
-      url: "#",
-      icon: Frame,
-    },
-  ],
+  // menu1: [
+  //   {
+  //     name: "Repository",
+  //     url: "#",
+  //     icon: Frame,
+  //   },
+  //   {
+  //     name: "Documents",
+  //     url: "#",
+  //     icon: Frame,
+  //   },
+  // ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -118,7 +105,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavProjects projects={data.menu0} />
         <NavMain items={data.deepWorkZoneTemplate} />
-        <NavProjects projects={data.menu1} />
+        {/* <NavProjects projects={data.menu1} /> */}
         <NavMain items={data.askAlfredTemplate} />
       </SidebarContent>
       <SidebarFooter>
