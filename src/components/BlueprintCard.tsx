@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "./ui/badge";
 import { Content } from "@/types/content";
+import { TypographyH4 } from "./TypographyH4";
 
 export function BlueprintCard({ content }: { content: Content }) {
   const router = useRouter();
@@ -22,7 +23,7 @@ export function BlueprintCard({ content }: { content: Content }) {
 
   return (
     <Card className="w-full min-w-[240px]">
-      <div className="flex p-6 gap-2">
+      <div className="flex gap-2 px-5 py-5">
         <Badge variant={"secondary"}>
           {content?.categories?.category_name}
         </Badge>
@@ -31,7 +32,7 @@ export function BlueprintCard({ content }: { content: Content }) {
         <img
           src={content?.image_url}
           alt="blueprint"
-          className="rounded-2xl h-52 object-center object-contain ml-5"
+          className="rounded-2xl h-52 object-center object-contain "
         />
         <CardHeader>
           <CardTitle className="min-h-12">{content?.content_title}</CardTitle>
@@ -40,15 +41,16 @@ export function BlueprintCard({ content }: { content: Content }) {
           </CardDescription>
         </CardHeader>
       </CardContent>
-      <CardFooter className="flex justify-between gap-3  w-full p-3 ">
+      <CardFooter className="flex justify-between gap-3  w-full px-3">
         <img
           src={
             content?.creators?.company_logo ||
             "https://content.partnerpage.io/eyJidWNrZXQiOiJwYXJ0bmVycGFnZS5wcm9kIiwia2V5IjoibWVkaWEvY29udGFjdF9pbWFnZXMvZmY2MmIwYmQtZTRkMS00MzZmLWExOWMtMWVlYzEzNmEzMDgzLzk0ZjZkMzQ1LTAzNGMtNDVmMi04MmJlLTZkMTI1ZGI2ZTI1My5wbmciLCJlZGl0cyI6eyJ0b0Zvcm1hdCI6IndlYnAiLCJyZXNpemUiOnsid2lkdGgiOjU3NiwiaGVpZ2h0Ijo1NiwiZml0IjoiaW5zaWRlIiwiYmFja2dyb3VuZCI6eyJyIjoyNTUsImciOjI1NSwiYiI6MjU1LCJhbHBoYSI6MH19fX0="
           }
           alt={content?.creators?.company_logo}
-          height={40}
-          width={40}
+          height={100}
+          width={100}
+          className="ml-5 "
         />
         <div className="flex gap-2 justify-between ml-auto">
           <Button
