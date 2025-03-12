@@ -11,6 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CircleCheck } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import { CiSaveDown2 } from "react-icons/ci";
 
 export default function BlueprintDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -47,6 +50,10 @@ export default function BlueprintDetailPage() {
     }
   };
 
+  // const formatMarkdown = (strings: string) => {
+  //   return Markdown(strings);
+  // };
+
   if (isLoading) {
     return <Skeleton />;
   }
@@ -63,42 +70,60 @@ export default function BlueprintDetailPage() {
             />
           </div>
           {/* creators information */}
-          <div className=" flex mt-6 ">
-            <div>
-              <img
-                src={content?.creators?.profile_picture}
-                height={50}
-                width={50}
-                className="rounded-xl"
-              />
+          <div className="md:flex md:justify-between">
+            <div className="flex mt-6  ">
+              <div>
+                <img
+                  src={content?.creators?.profile_picture}
+                  height={50}
+                  width={50}
+                  className="rounded-xl"
+                />
+              </div>
+              <div className="ml-4">
+                <TypographyH4>{content?.creators?.first_name}</TypographyH4>
+                <p>
+                  {content?.creators?.job_title} at{" "}
+                  <a className="text-blue-700">
+                    {content?.creators?.company_name}
+                  </a>
+                </p>
+              </div>
             </div>
-            <div className="ml-4">
-              <TypographyH4>{content?.creators?.first_name}</TypographyH4>
-              <p>
-                {content?.creators?.job_title} at{" "}
-                <a className="text-blue-700">
-                  {content?.creators?.company_name}
-                </a>
-              </p>
+            <div className="flex mr-3">
+              <CiSaveDown2 className="h-12 w-12" />
+              <CiSaveDown2 className="h-12 w-12" />
+              <CiSaveDown2 className="h-12 w-12" />
+              <CiSaveDown2 className="h-12 w-12" />
             </div>
           </div>
           {/* engagement icons */}
           <div>{/* <img src={} /> */}</div>
-          <div className="md:flex md:justify-stretch ">
+          <div className="md:flex md:justify-start md:gap-6 ">
             {/* previews */}
-            <div className="mt-6">
+            <div className="mt-6 ">
               <TypographyH3>Template previews:</TypographyH3>
               <div className="flex overflow-auto mt-6 gap-6">
-                {content?.previews?.map((preview) => (
+                {content?.previews?.map((preview, index) => (
                   <img
                     src={preview}
                     className="w-full h-full md:w-56 md:h-56"
+                    key={index}
                   />
                 ))}
               </div>
+              {/* content descriptions */}
+              <div className="markdown-content mt-12">
+                <ReactMarkdown
+                  rehypePlugins={[rehypeRaw]}
+                  {...(content?.long_description
+                    ? { children: content.long_description }
+                    : {})}
+                />
+              </div>
             </div>
             {/* content informations */}
-            <div className="">
+            <div className="md:min-w-fit md:sticky md:top-0">
               <div className="flex mt-6 gap-6">
                 <Badge>{content?.categories?.category_name}</Badge>
                 <p>{content?.minutes_read} minutes read</p>
@@ -110,8 +135,8 @@ export default function BlueprintDetailPage() {
                 Published on {formatDate(content?.created_at)}
               </p>
               <p className="mt-6 font-bold">How this guide helps you:</p>
-              {content?.features?.map((feature) => (
-                <div className="flex gap-1">
+              {content?.features?.map((feature, index) => (
+                <div className="flex gap-1" key={index}>
                   <CircleCheck className="mt-3" />
                   <p className="mt-3">{feature}</p>
                 </div>
@@ -123,8 +148,6 @@ export default function BlueprintDetailPage() {
             </div>
           </div>
         </div>
-        {/* content descriptions */}
-        <div className="mt-12">{content?.long_description}</div>
       </div>
     </>
   );
