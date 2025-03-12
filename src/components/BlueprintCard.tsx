@@ -17,8 +17,10 @@ import { LuCalendarArrowUp } from "react-icons/lu";
 export function BlueprintCard({ content }: { content: Content }) {
   const router = useRouter();
 
-  const handleClickContent = (content_id: string) => {
-    router.push(`/blueprints/${content_id}`);
+  const handleClickContent = (content_id: string, is_blueprint: boolean) => {
+    is_blueprint
+      ? router.push(`/blueprints/${content_id}`)
+      : router.push(`/guides/${content_id}`);
   };
 
   return (
@@ -36,7 +38,7 @@ export function BlueprintCard({ content }: { content: Content }) {
             {content?.short_description}
           </CardDescription>
         </CardHeader>
-        <CardFooter className="flex justify-between bg-blue-50">
+        <CardFooter className="flex justify-between ">
           <img
             src={content?.creators?.company_logo}
             alt={content?.creators?.company_name}
@@ -44,7 +46,11 @@ export function BlueprintCard({ content }: { content: Content }) {
           />
           <div className="flex gap-3 justify-between ml-auto  w-40">
             <LuCalendarArrowUp className="h-8 w-8 " />
-            <Button onClick={() => handleClickContent(content.content_id)}>
+            <Button
+              onClick={() =>
+                handleClickContent(content.content_id, content.is_blueprint)
+              }
+            >
               Learn new skill
             </Button>
           </div>
