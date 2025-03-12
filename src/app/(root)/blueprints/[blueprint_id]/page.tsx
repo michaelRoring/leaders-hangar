@@ -4,13 +4,19 @@ import { useState, useEffect } from "react";
 import { Content } from "@/types/content";
 import { useParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { DynamicBreadcrumb } from "@/components/Breadcrumb";
-import { TypographyH2 } from "@/components/TypographyH2";
 import { TypographyH3 } from "@/components/TypographyH3";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
+import { TypographyH4 } from "@/components/TypographyH4";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { CircleCheck } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import { CiSaveDown2 } from "react-icons/ci";
 
 export default function BlueprintDetailPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [content, setContent] = useState<Content | null>(null);
   const params = useParams();
   const supabase = createClient();
@@ -26,8 +32,8 @@ export default function BlueprintDetailPage() {
         console.log(error);
       } else {
         setContent(data);
+        setIsLoading(false);
       }
-      console.log("data: ", data);
     };
     fetchContent();
   }, [params.blueprint_id, supabase]);
@@ -44,90 +50,103 @@ export default function BlueprintDetailPage() {
     }
   };
 
+  // const formatMarkdown = (strings: string) => {
+  //   return Markdown(strings);
+  // };
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
   return (
     <>
-      <div className="md:px-12 md:py-12">
-        <DynamicBreadcrumb />
-        {content?.thumbnail_image && (
-          <img src={content.thumbnail_image} alt="Thumbnail" />
-        )}
-        <div className="md:flex md:justify-between w-auto mt-8 ">
-          <div className="flex gap-4">
-            {content?.creators?.profile_picture && (
-              <img
-                src={content.creators.profile_picture}
-                height={50}
-                width={60}
-                className="rounded-2xl"
-                alt="Creator Profile"
-              />
-            )}
-            <div className="">
-              <TypographyH3>
-                {content?.creators?.first_name} {content?.creators?.last_name}
-              </TypographyH3>
-              <h1>
-                {content?.creators?.job_title} at{" "}
-                {content?.creators?.company_name}
-              </h1>
-            </div>
-          </div>
-
-          <div className="flex my-4 gap-4">
-            <img
-              src="https://i.ibb.co.com/JXvBK4s/like-svgrepo-com-1.png"
-              alt="Like"
-            />
-            <img
-              src="https://i.ibb.co.com/KxzpTtkF/calendar-add-svgrepo-com-1.png"
-              alt="Calendar"
-            />
-            <img
-              src="https://i.ibb.co.com/W4BpVw6m/save-wishlist-like-favorite-svgrepo-com-2.png"
-              alt="Save"
-            />
-            <img
-              src="https://i.ibb.co.com/YF7r3rSM/share-svgrepo-com-1-1.png"
-              alt="Share"
-            />
-          </div>
-        </div>
-        <div className="md:flex md:justify-stretch md:gap-12 md:mt-12">
+      <div className="md:px-12">
+        <div className="">
+          {/* cover image */}
           <div>
-            <TypographyH3>Template Preview:</TypographyH3>
-            <div className="mt-8 flex overflow-x-auto gap-4 h-24 md:h-fit">
-              {content?.previews &&
-                content.previews.map((preview, index) => (
-                  <img key={index} src={preview} alt={`Preview ${index + 1}`} />
+            <img
+              src={content?.image_url}
+              className="md:min-w-fit md:min-h-fit"
+            />
+          </div>
+          {/* creators information */}
+          <div className="md:flex md:justify-between">
+            <div className="flex mt-6  ">
+              <div>
+                <img
+                  src={content?.creators?.profile_picture}
+                  height={50}
+                  width={50}
+                  className="rounded-xl"
+                />
+              </div>
+              <div className="ml-4">
+                <TypographyH4>{content?.creators?.first_name}</TypographyH4>
+                <p>
+                  {content?.creators?.job_title} at{" "}
+                  <a className="text-blue-700">
+                    {content?.creators?.company_name}
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div className="flex mr-3">
+              <CiSaveDown2 className="h-12 w-12" />
+              <CiSaveDown2 className="h-12 w-12" />
+              <CiSaveDown2 className="h-12 w-12" />
+              <CiSaveDown2 className="h-12 w-12" />
+            </div>
+          </div>
+          {/* engagement icons */}
+          <div>{/* <img src={} /> */}</div>
+          <div className="md:flex md:justify-start md:gap-6 ">
+            {/* previews */}
+            <div className="mt-6 ">
+              <TypographyH3>Template previews:</TypographyH3>
+              <div className="flex overflow-auto mt-6 gap-6">
+                {content?.previews?.map((preview, index) => (
+                  <img
+                    src={preview}
+                    className="w-full h-full md:w-56 md:h-56"
+                    key={index}
+                  />
                 ))}
+              </div>
+              {/* content descriptions */}
+              <div className="markdown-content mt-12">
+                <ReactMarkdown
+                  rehypePlugins={[rehypeRaw]}
+                  {...(content?.long_description
+                    ? { children: content.long_description }
+                    : {})}
+                />
+              </div>
+            </div>
+            {/* content informations */}
+            <div className="md:min-w-fit md:sticky md:top-0">
+              <div className="flex mt-6 gap-6">
+                <Badge>{content?.categories?.category_name}</Badge>
+                <p>{content?.minutes_read} minutes read</p>
+              </div>
+              <div className="mt-3">
+                <TypographyH3>{content?.content_title}</TypographyH3>
+              </div>
+              <p className="mt-1">
+                Published on {formatDate(content?.created_at)}
+              </p>
+              <p className="mt-6 font-bold">How this guide helps you:</p>
+              {content?.features?.map((feature, index) => (
+                <div className="flex gap-1" key={index}>
+                  <CircleCheck className="mt-3" />
+                  <p className="mt-3">{feature}</p>
+                </div>
+              ))}
+              <p className="mt-6">Download the blueprint now:</p>
+              {/* <div className="w-full"> */}
+              <Button className="w-full rounded-xl">Download</Button>
+              {/* </div> */}
             </div>
           </div>
-
-          <div className="mt-4">
-            <div className="flex mt-8 gap-5">
-              {content?.categories?.category_name && (
-                <span className="bg-blue-900 rounded-lg px-4 ">
-                  <h1 className="text-white">
-                    {content.categories.category_name}
-                  </h1>
-                </span>
-              )}
-              <h1>{content?.minutes_read} min read</h1>
-            </div>
-            <h1 className="text-3xl font-bold">{content?.content_title}</h1>
-            <h1 className="mt-4 text-sm">
-              Published on: {formatDate(content?.created_at)}
-            </h1>
-            <h1 className="mt-4">How this guide will help you: </h1>
-            {content?.features.map((feature) => {
-              return <h1>✅ {feature}</h1>;
-            })}
-            <h1 className="mt-6 text-sm">Download the blueprint now:</h1>
-            <Button>Download now </Button>
-          </div>
-        </div>
-        <div className="mt-8">
-          <h1>{content?.long_description}</h1>
         </div>
       </div>
     </>

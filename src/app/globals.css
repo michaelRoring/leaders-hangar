@@ -86,3 +86,17 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* styles.module.css (or your preferred method) */
+.markdown-content h1 {
+  /* Your desired h1 styles */
+  font-size: 2em;
+  font-weight: bold;
+  /* ... */
+}
+.markdown-content h2 {
+  /* Your desired h2 styles */
+  font-size: 1.5em;
+  /* ... */
+}
+/* ... and so on for other heading levels */
