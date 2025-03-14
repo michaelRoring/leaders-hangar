@@ -2,7 +2,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import LogoutButton from "./ClientDashboard";
-import { TypographyH1 } from "@/components/TypographyH1";
+import { TypographyH1 } from "@/components/ui/molecules/TypographyH1";
 
 export default async function Dashboard() {
   const supabase = await createClient();

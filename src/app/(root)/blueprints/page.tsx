@@ -1,9 +1,9 @@
-import { BlueprintCard } from "@/components/BlueprintCard";
+import { BlueprintCard } from "@/components/ui/molecules/BlueprintCard";
 import { createClient } from "@/lib/supabase/server";
-import TitleCard from "@/components/TitleCard";
-import { TypographyH3 } from "@/components/TypographyH3";
+import TitleCard from "@/components/ui/molecules/TitleCard";
+import { TypographyH3 } from "@/components/ui/molecules/TypographyH3";
 import { redirect } from "next/navigation";
-import { DynamicBreadcrumb } from "@/components/Breadcrumb";
+import { DynamicBreadcrumb } from "@/components/ui/atoms/Breadcrumb";
 import { Content } from "@/types/content";
 
 export default async function Blueprints() {

@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { RunwayCalculatorData } from "@/types";
 
-import SliderInput from "@/components/SliderInput";
-import DateInput from "@/components/DateInput";
-import BurnRateChart from "@/components/BurnRateChart";
-import CashProjectionChart from "@/components/CashProjectionChart";
-import WarningCard from "@/components/WarningCard";
+import SliderInput from "@/components/ui/molecules/SliderInput";
+import DateInput from "@/components/ui/molecules/DateInput";
+import BurnRateChart from "@/components/ui/molecules/BurnRateChart";
+import CashProjectionChart from "@/components/ui/molecules/CashProjectionChart";
+import WarningCard from "@/components/ui/molecules/WarningCard";
 import { calculateRunway, calculateLowCashWarning } from "@/utils/calculations";
 
 export default function RunwayCalculator() {

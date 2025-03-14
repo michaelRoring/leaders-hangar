@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import {
   MarketingChannel,
   OptimizationRecommendation,
-} from "../types/marketing-roi";
+} from "../../../types/marketing-roi";
 
 interface MarketingMixOptimizerProps {
   recommendations: OptimizationRecommendation[];

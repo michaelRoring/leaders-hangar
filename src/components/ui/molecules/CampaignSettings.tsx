@@ -1,6 +1,6 @@
 // src/components/CampaignSettings.tsx
 import React from "react";
-import { CampaignSettings as CampaignSettingsType } from "../types/marketing-roi";
+import { CampaignSettings as CampaignSettingsType } from "../../../types/marketing-roi";
 
 interface CampaignSettingsProps {
   settings: CampaignSettingsType;

@@ -1,6 +1,6 @@
 // src/components/ROIProjections.tsx
 import React, { useState } from "react";
-import { MarketingMetrics, ScenarioData } from "../types/marketing-roi";
+import { MarketingMetrics, ScenarioData } from "../../../types/marketing-roi";
 
 interface ROIProjectionsProps {
   metrics: MarketingMetrics;

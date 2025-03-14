@@ -1,6 +1,6 @@
 // src/components/ChannelAllocation.tsx
 import React, { useState } from "react";
-import { MarketingChannel } from "../types/marketing-roi";
+import { MarketingChannel } from "../../../types/marketing-roi";
 
 interface ChannelAllocationProps {
   channels: MarketingChannel[];

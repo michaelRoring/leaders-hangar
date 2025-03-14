@@ -5,7 +5,7 @@ import {
   MarketingChannel,
   CustomerSegment,
   ScenarioData,
-} from "../types/marketing-roi";
+} from "../../../types/marketing-roi";
 
 // Note: In a real implementation, this would use a charting library like Chart.js or Recharts
 // Here we'll simulate the charts with divs and CSS for simplicity

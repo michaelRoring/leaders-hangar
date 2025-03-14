@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/shadcn/card";
-import { Badge } from "./ui/shadcn/badge";
+import { Badge } from "../shadcn/badge";
 import { Content } from "@/types/content";
 import { LuCalendarArrowUp } from "react-icons/lu";
 

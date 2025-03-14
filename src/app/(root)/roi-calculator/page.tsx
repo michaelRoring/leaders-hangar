@@ -3,8 +3,8 @@ import { useState, useEffect, ChangeEvent } from "react";
 // import TooltipButton from "./TooltipButton";
 // import RoiChart from "./RoiChart";
 
-import TooltipButton from "@/components/TooltipButton";
-import RoiChart from "@/components/ROIChart";
+import TooltipButton from "@/components/ui/molecules/TooltipButton";
+import RoiChart from "@/components/ui/molecules/ROIChart";
 
 const RoiCalculator: React.FC = () => {
   // State for form inputs

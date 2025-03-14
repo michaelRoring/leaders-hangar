@@ -1,6 +1,6 @@
 // src/components/ScenarioManager.tsx
 import React, { useState, useEffect } from "react";
-import { ScenarioData, MarketingMetrics } from "../types/marketing-roi";
+import { ScenarioData, MarketingMetrics } from "../../../types/marketing-roi";
 
 interface ScenarioManagerProps {
   scenarios: ScenarioData[];
