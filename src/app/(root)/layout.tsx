@@ -1,4 +1,4 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/shadcn/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { createClient } from "@/lib/supabase/server";
 import { User } from "@/types/user";

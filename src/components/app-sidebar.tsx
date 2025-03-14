@@ -24,7 +24,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/shadcn/sidebar";
 
 const data = {
   user: {

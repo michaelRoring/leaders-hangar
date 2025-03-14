@@ -1,6 +1,6 @@
 // components/dashboard/FinancialParameters.tsx
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/shadcn/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/shadcn/card";
 
 interface FinancialParametersProps {
   data: {

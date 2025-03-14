@@ -1,7 +1,7 @@
 // app/page.tsx
 "use client";
 import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
 // import GrowthModeling from "@/components/dashboard/GrowthModeling";
 // import CapitalEvents from "@/components/dashboard/CapitalEvents";

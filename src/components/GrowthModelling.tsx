@@ -1,10 +1,10 @@
 // components/dashboard/GrowthModeling.tsx
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/shadcn/card";
+import { Slider } from "@/components/ui/shadcn/slider";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/shadcn/radio-group";
+import { Label } from "@/components/ui/shadcn/label";
+import { Input } from "@/components/ui/shadcn/input";
 
 interface GrowthModelingProps {
   data: {

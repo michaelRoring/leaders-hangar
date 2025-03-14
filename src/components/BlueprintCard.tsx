@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/shadcn/button";
 import {
   Card,
   CardContent,
@@ -9,8 +9,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "./ui/badge";
+} from "@/components/ui/shadcn/card";
+import { Badge } from "./ui/shadcn/badge";
 import { Content } from "@/types/content";
 import { LuCalendarArrowUp } from "react-icons/lu";
 
