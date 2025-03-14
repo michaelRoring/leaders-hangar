@@ -1,6 +1,6 @@
 // src/components/SensitivityAnalysis.tsx
 import React, { useState } from "react";
-import { SensitivityData } from "../types/marketing-roi";
+import { SensitivityData } from "../../../types/marketing-roi";
 
 interface SensitivityAnalysisProps {
   data: SensitivityData[];

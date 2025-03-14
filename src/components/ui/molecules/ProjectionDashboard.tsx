@@ -1,6 +1,6 @@
 // components/dashboard/ProjectionDashboard.tsx
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/shadcn/card";
+import { Progress } from "@/components/ui/shadcn/progress";
 
 interface ProjectionDashboardProps {
   projections: {

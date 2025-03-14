@@ -1,5 +1,5 @@
 import { TypographyH3 } from "./TypographyH3";
-import { Button } from "./ui/button";
+import { Button } from "../shadcn/button";
 
 interface TitleCardProps {
   firstName: string;

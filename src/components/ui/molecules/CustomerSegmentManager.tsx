@@ -1,6 +1,6 @@
 // src/components/CustomerSegmentManager.tsx
 import React, { useState } from "react";
-import { CustomerSegment } from "../types/marketing-roi";
+import { CustomerSegment } from "../../../types/marketing-roi";
 
 interface CustomerSegmentManagerProps {
   segments: CustomerSegment[];

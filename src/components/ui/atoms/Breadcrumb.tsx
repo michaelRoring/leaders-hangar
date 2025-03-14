@@ -10,7 +10,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "@/components/ui/shadcn/breadcrumb";
 
 export function Breadcrumbs({ routes = [] }: { routes: string[] }) {
   let fullHref: string | undefined = undefined;

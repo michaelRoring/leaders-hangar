@@ -1,6 +1,6 @@
 // src/components/FinancialParameters.tsx
 import React from "react";
-import { FinancialDataType } from "../types";
+import { FinancialDataType } from "../../../types";
 
 interface FinancialParametersProps {
   data: FinancialDataType;

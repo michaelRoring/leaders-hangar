@@ -1,19 +1,19 @@
 // app/page.tsx
 "use client";
 import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs";
 
 // import GrowthModeling from "@/components/dashboard/GrowthModeling";
 // import CapitalEvents from "@/components/dashboard/CapitalEvents";
 // import RiskAnalysis from "@/components/dashboard/RiskAnalysis";
 
 import { useRunwayCalculator } from "@/hooks/useRunwayCalculator";
-import FinancialParameters from "@/components/FinancialParameter";
-import CashFlowChart from "@/components/CashflowChart";
-import ProjectionDashboard from "@/components/ProjectionDashboard";
-import GrowthModeling from "@/components/GrowthModelling";
-import CapitalEvents from "@/components/CapitalEvents";
-import RiskAnalysis from "@/components/RiskAnalysis";
+import FinancialParameters from "@/components/ui/molecules/FinancialParameter";
+import CashFlowChart from "@/components/ui/molecules/CashflowChart";
+import ProjectionDashboard from "@/components/ui/molecules/ProjectionDashboard";
+import GrowthModeling from "@/components/ui/molecules/GrowthModelling";
+import CapitalEvents from "@/components/ui/molecules/CapitalEvents";
+import RiskAnalysis from "@/components/ui/molecules/RiskAnalysis";
 
 export default function AdvancedRunwayCalculator() {
   const {

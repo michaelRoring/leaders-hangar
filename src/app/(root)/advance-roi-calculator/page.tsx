@@ -2,14 +2,14 @@
 // src/components/ROIMarketingCalculator.tsx
 import React, { useState, useEffect } from "react";
 
-import CampaignSettings from "@/components/CampaignSettings";
-import ChannelAllocation from "@/components/ChannelAllocation";
-import CustomerSegmentManager from "@/components/CustomerSegmentManager";
-import ROIProjections from "@/components/ROIProjections";
-import SensitivityAnalysis from "@/components/SensitivityAnalysis";
-import MarketingMixOptimizer from "@/components/MarketingMixOptimizer";
-import VisualizationDashboard from "@/components/VisualizationDashboard";
-import ScenarioManager from "@/components/ScenarioManager";
+import CampaignSettings from "@/components/ui/molecules/CampaignSettings";
+import ChannelAllocation from "@/components/ui/molecules/ChannelAllocation";
+import CustomerSegmentManager from "@/components/ui/molecules/CustomerSegmentManager";
+import ROIProjections from "@/components/ui/molecules/ROIProjections";
+import SensitivityAnalysis from "@/components/ui/molecules/SensitivityAnalysis";
+import MarketingMixOptimizer from "@/components/ui/molecules/MarketingMixOptimizer";
+import VisualizationDashboard from "@/components/ui/molecules/VisualizationDashboard";
+import ScenarioManager from "@/components/ui/molecules/ScenarioManager";
 
 import {
   CampaignSettings as CampaignSettingsType,
