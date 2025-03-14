@@ -44,14 +44,9 @@ import {
 import DevhausLogo from "@/assets/DevhausLogo";
 import { NavUser } from "../atoms/nav-user";
 import AbbiyuImg from "@/assets/AbbiyuAvatarImage.png";
-
-const data = {
-  user: {
-    name: "Farilzi Abbiyu",
-    email: "abbiyu@devhaus.com.sg",
-    avatar: AbbiyuImg,
-  },
-};
+import { createClient } from "@/lib/supabase/client";
+import { useState, useEffect } from "react";
+import { redirect } from "next/navigation";
 
 const mainNavItems = [
   {
@@ -147,6 +142,53 @@ const mainNavItems = [
 ];
 
 export function AppSidebar() {
+  const [userData, setUserData] = useState({
+    user: {
+      uid: "",
+      name: "",
+      email: "",
+      avatar: "",
+    },
+  });
+
+  const pullUserData = async () => {
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.getUser();
+
+    if (error) {
+      throw new Error("Error fetching user data");
+    }
+
+    const { data: users, error: errorUsers } = await supabase
+      .from("users")
+      .select("avatar")
+      .eq("uid", data.user.id);
+
+    if (errorUsers) {
+      throw new Error("Error fetching user data");
+    }
+
+    if (error || !data.user) {
+      redirect("/login");
+    }
+
+    setUserData({
+      user: {
+        uid: data.user.id,
+        name:
+          data.user.user_metadata.first_name +
+          " " +
+          data.user.user_metadata.last_name,
+        email: data.user.email!,
+        avatar: users[0].avatar,
+      },
+    });
+  };
+
+  useEffect(() => {
+    pullUserData();
+  }, []);
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -257,7 +299,7 @@ export function AppSidebar() {
 
       <SidebarFooter>
         <SidebarFooter>
-          <NavUser user={{ ...data.user, avatar: AbbiyuImg.src }} />
+          <NavUser user={{ ...userData.user }} />
         </SidebarFooter>
       </SidebarFooter>
     </Sidebar>
