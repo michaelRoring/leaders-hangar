@@ -1,30 +1,41 @@
-// import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { UserInformation } from "@/types/user"; // Use the correct type
+import { createClient as createBrowserClient } from "../supabase/client";
 
-// export async function getServerSideProps(context: any) {
-//   const supabase = createPagesServerClient(context);
-//   const {
-//     data: { session },
-//   } = await supabase.auth.getSession();
+export const getUserClient = async (): Promise<UserInformation | null> => {
+  const supabase = await createBrowserClient();
+  const { data, error } = await supabase.auth.getUser();
 
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (error) {
+    console.error("Client-side error fetching user:", error);
+    return null;
+  }
 
-//   // Fetch user data if needed
-//   const { data: user, error } = await supabase
-//     .from("users")
-//     .select("*")
-//     .eq("id", session.user.id)
-//     .single();
+  if (!data.user) {
+    return null;
+  }
 
-//   return {
-//     props: {
-//       user: user || session.user, // Pass user data to the page
-//     },
-//   };
-// }
+  const { data: users, error: errorUsers } = await supabase
+    .from("users")
+    .select("avatar")
+    .eq("uid", data.user.id);
+
+  if (errorUsers) {
+    console.error("Client-side error fetching from 'users':", errorUsers);
+    return null;
+  }
+
+  if (!users || users.length === 0) {
+    console.error("User not found in 'users' table client side");
+    return null;
+  }
+
+  return {
+    uid: data.user.id,
+    name:
+      data.user.user_metadata.first_name +
+      " " +
+      data.user.user_metadata.last_name,
+    email: data.user.email!,
+    avatar: users[0].avatar,
+  };
+};
