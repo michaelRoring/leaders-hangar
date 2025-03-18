@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  uid: string;
   app_metadata: UserAppMetadata;
   user_metadata: UserMetadata;
   aud: string;
@@ -29,7 +29,13 @@ export interface UserAppMetadata {
 }
 
 export interface UserMetadata {
-  [key: string]: any;
+  // [key: string]: any;
+  email?: string;
+  email_verified?: boolean;
+  first_name?: string;
+  last_name?: string;
+  phone_verified?: boolean;
+  sub?: string;
 }
 
 export interface UserIdentity {
@@ -69,4 +75,11 @@ export interface Factor {
 
   created_at: string;
   updated_at: string;
+}
+
+export interface UserInformation {
+  uid: string;
+  name: string;
+  email: string;
+  avatar: string;
 }

@@ -43,10 +43,11 @@ import {
 } from "@/components/ui/shadcn/collapsible";
 import DevhausLogo from "@/assets/DevhausLogo";
 import { NavUser } from "../atoms/nav-user";
-import AbbiyuImg from "@/assets/AbbiyuAvatarImage.png";
 import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
+import { UserInformation } from "@/types/user";
+import { useAuth } from "@/app/(root)/providers";
 
 const mainNavItems = [
   {
@@ -142,52 +143,31 @@ const mainNavItems = [
 ];
 
 export function AppSidebar() {
-  const [userData, setUserData] = useState({
-    user: {
-      uid: "",
-      name: "",
-      email: "",
-      avatar: "",
-    },
-  });
+  const { user, loading, error, setUser } = useAuth();
 
-  const pullUserData = async () => {
-    const supabase = await createClient();
-    const { data, error } = await supabase.auth.getUser();
+  if (loading) {
+    return (
+      <Sidebar>
+        <SidebarHeader>
+          <div>Loading...</div>
+        </SidebarHeader>
+      </Sidebar>
+    );
+  }
 
-    if (error) {
-      throw new Error("Error fetching user data");
-    }
+  if (error) {
+    return (
+      <Sidebar>
+        <SidebarHeader>
+          <div>Error: {error.message}</div>
+        </SidebarHeader>
+      </Sidebar>
+    );
+  }
 
-    const { data: users, error: errorUsers } = await supabase
-      .from("users")
-      .select("avatar")
-      .eq("uid", data.user.id);
-
-    if (errorUsers) {
-      throw new Error("Error fetching user data");
-    }
-
-    if (error || !data.user) {
-      redirect("/login");
-    }
-
-    setUserData({
-      user: {
-        uid: data.user.id,
-        name:
-          data.user.user_metadata.first_name +
-          " " +
-          data.user.user_metadata.last_name,
-        email: data.user.email!,
-        avatar: users[0].avatar,
-      },
-    });
-  };
-
-  useEffect(() => {
-    pullUserData();
-  }, []);
+  if (!user) {
+    redirect("/login");
+  }
 
   return (
     <Sidebar>
@@ -299,7 +279,7 @@ export function AppSidebar() {
 
       <SidebarFooter>
         <SidebarFooter>
-          <NavUser user={{ ...userData.user }} />
+          <NavUser user={user} />
         </SidebarFooter>
       </SidebarFooter>
     </Sidebar>
