@@ -1,4 +1,23 @@
 export type Courses = Course[];
+export type Modules = Module[];
+export type Lessons = Lesson[];
+
+export interface Lesson {
+  lesson_id: string;
+  lesson_title: string;
+  short_description: string;
+  sequence: number;
+}
+
+export interface Module {
+  module_id: string;
+  lessons: Lesson[];
+  duration: number;
+  module_title: string;
+  short_description: string;
+  image_url: string;
+  sequence: number;
+}
 
 export interface Course {
   course_id: string;
@@ -14,6 +33,7 @@ export interface Course {
   updated_at: string;
   courses_categories: CoursesCategory[];
   creators: Creator;
+  modules: Module[];
 }
 
 export interface CoursesCategory {
@@ -30,4 +50,8 @@ export interface Categories {
 export interface Creator {
   company_logo: string;
   company_name: string;
+  first_name: string;
+  last_name: string;
+  job_title: string;
+  profile_picture: string;
 }

@@ -50,10 +50,6 @@ export default function BlueprintDetailPage() {
     }
   };
 
-  // const formatMarkdown = (strings: string) => {
-  //   return Markdown(strings);
-  // };
-
   if (isLoading) {
     return <Skeleton />;
   }

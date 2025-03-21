@@ -1,26 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
 import CourseCard from "@/components/ui/molecules/CourseCard";
 import { Course } from "@/types/courses";
+import { getCourses } from "@/lib/data/courses";
 
 export default async function Courses() {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase.from("courses").select(`
-      *,
-      courses_categories (
-        categories (
-          *
-        )
-      ),
-      creators (
-        company_logo,
-        company_name
-  )
-    `);
-
-  if (error) {
-    console.log(error);
-  }
+  const data = await getCourses();
 
   return (
     <>
