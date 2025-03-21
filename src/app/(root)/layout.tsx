@@ -13,7 +13,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const initialUser = await getUserServer();
-  // console.log("initialUser :", initialUser);
 
   if (!initialUser) {
     redirect("/login");
