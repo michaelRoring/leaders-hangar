@@ -5,8 +5,13 @@ export type Lessons = Lesson[];
 export interface Lesson {
   lesson_id: string;
   lesson_title: string;
-  short_description: string;
+  short_description?: string;
+  long_description?: string;
+  image_url?: string;
+  video_url?: string;
   sequence: number;
+  module_id?: string;
+  modules?: Module;
 }
 
 export interface Module {
@@ -17,6 +22,7 @@ export interface Module {
   short_description: string;
   image_url: string;
   sequence: number;
+  courses?: Course;
 }
 
 export interface Course {

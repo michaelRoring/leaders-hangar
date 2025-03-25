@@ -83,7 +83,6 @@ export default function CourseOverview() {
         console.error("Enrollment failed:", err);
       } finally {
         setIsLoadingEnrollment(false);
-        // Reset the enrollment trigger
         setShouldEnroll(false);
       }
     };
@@ -177,7 +176,6 @@ export default function CourseOverview() {
           </div>
           <div className="md:w-4/6 ">
             <StudyProgress
-              // progress={data.progress}
               progress={progress}
               course_title={data.course_title}
             />

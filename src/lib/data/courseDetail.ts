@@ -25,6 +25,7 @@ export async function getCourse(course_id: string): Promise<Course | null> {
       duration,
       sequence,
         lessons (
+          lesson_id,
           lesson_title,
           short_description,
           sequence

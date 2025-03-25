@@ -9,17 +9,17 @@ export default function StudyProgress({
 }: StudyProgressProps) {
   return (
     <>
-      <div className=" bg-blue-100 rounded-xl ">
+      <div className=" bg-slate-50 rounded-xl ">
         <div className="mt-6 p-3">
           {/* heading */}
           <h1 className="text-xl font-bold">
             Your Study Progress{" "}
-            <a className="text-blue-500">{progress ?? 0}%</a>
+            <a className="text-slate-500">{progress ?? 0}%</a>
           </h1>
           {/* progress bar */}
           <div className="w-full bg-white rounded-full h-4 my-3">
             <div
-              className="bg-blue-700 h-4 rounded-full"
+              className="bg-slate-700 h-4 rounded-full"
               style={{ width: `${progress ?? 0}%` }}
             ></div>
           </div>

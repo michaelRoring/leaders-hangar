@@ -1,12 +1,23 @@
+"use client";
+
 import { Module } from "@/types/courses";
 import { Badge } from "../shadcn/badge";
 import { ChevronRight } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 
 interface ModuleCardProps {
   module: Module;
 }
 
 export default function ModuleCard({ module }: ModuleCardProps) {
+  console.log("module :", module);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleClick = (lessonId: string) => {
+    router.push(`${pathname}/lessons/${lessonId}`);
+  };
+
   return (
     <>
       <div className="border border-slate-200 rounded-xl p-6 flex mt-6">
@@ -32,7 +43,8 @@ export default function ModuleCard({ module }: ModuleCardProps) {
             return (
               <div
                 key={lesson.lesson_id}
-                className="bg-slate-800 mt-3 px-3 py-1 rounded-md"
+                className="bg-slate-800 mt-3 px-3 py-1 rounded-md hover:bg-slate-500 cursor-pointer transition-all duration-300 ease-in-out"
+                onClick={() => handleClick(lesson.lesson_id)}
               >
                 <div className="flex md:justify-between">
                   <h1 className="text-white">{lesson.lesson_title}</h1>
