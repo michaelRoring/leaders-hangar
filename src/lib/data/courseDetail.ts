@@ -97,3 +97,24 @@ export async function enrollCourse(
     return false;
   }
 }
+
+export async function getCourseCompletionPercentage(
+  userId: string,
+  courseId: string
+): Promise<number> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.rpc(
+    "get_course_completion_percentage",
+    { p_user_id: userId, p_course_id: courseId }
+  );
+
+  const integerPercentage = Math.floor(data);
+
+  if (error) {
+    console.error("Error getting completion percentage:", error);
+    return 0;
+  }
+
+  return integerPercentage;
+}

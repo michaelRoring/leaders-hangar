@@ -5,6 +5,7 @@ import {
   getCourse,
   checkCourseRegistration,
   enrollCourse,
+  getCourseCompletionPercentage,
 } from "@/lib/data/courseDetail";
 import { Button } from "@/components/ui/shadcn/button";
 import { useState, useEffect } from "react";
@@ -22,15 +23,30 @@ export default function CourseOverview() {
   const [isLoading, setLoading] = useState(true);
   const [isEnrolled, setEnrolled] = useState(false);
   const [isLoadingEnrollment, setIsLoadingEnrollment] = useState(false);
-  // Add a new state to track if enrollment should be triggered
   const [shouldEnroll, setShouldEnroll] = useState(false);
+  const [progress, setProgress] = useState<number>(0);
   const { user } = useAuth();
 
   if (!courseId || courseId instanceof Array) {
     return <div>Course not found</div>;
   }
+  useEffect(() => {
+    const fetchProgressData = async () => {
+      try {
+        if (user?.uid) {
+          const progress = await getCourseCompletionPercentage(
+            user.uid,
+            courseId
+          );
+          setProgress(progress);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchProgressData();
+  }, []);
 
-  // First useEffect to load course data and check enrollment status
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,9 +68,7 @@ export default function CourseOverview() {
     fetchData();
   }, [courseId, user?.uid]);
 
-  // Second useEffect specifically for enrollment process
   useEffect(() => {
-    // Only run if shouldEnroll is true and we're not already enrolled
     if (!shouldEnroll || isEnrolled || !user?.uid) return;
 
     const performEnrollment = async () => {
@@ -77,7 +91,6 @@ export default function CourseOverview() {
     performEnrollment();
   }, [shouldEnroll, isEnrolled, user?.uid, courseId]);
 
-  // Function to trigger enrollment
   const triggerEnrollment = () => {
     if (!user?.uid || isLoadingEnrollment) return;
     setShouldEnroll(true);
@@ -87,7 +100,7 @@ export default function CourseOverview() {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <span className="ml-2">Loading course details...</span>
+        <span className="ml-2 ">Loading course details...</span>
       </div>
     );
   }
@@ -165,6 +178,7 @@ export default function CourseOverview() {
           <div className="md:w-4/6 ">
             <StudyProgress
               // progress={data.progress}
+              progress={progress}
               course_title={data.course_title}
             />
             {data.modules.map((module) => {
