@@ -8,12 +8,12 @@ export interface LessonWithRelations {
   module_id: string;
 
   // Extract first element from arrays
-  module?: {
+  modules?: {
     module_id: string;
     module_title: string;
     sequence: number;
     course_id: string;
-    course?: {
+    courses?: {
       course_id: string;
       course_title?: string;
     };

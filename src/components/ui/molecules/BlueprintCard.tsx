@@ -25,37 +25,45 @@ export function BlueprintCard({ content }: { content: Content }) {
 
   return (
     <>
-      <Card className="w-[350px]">
-        <Badge className="mx-6 my-4">
-          {content?.categories?.category_name}
-        </Badge>
-        <CardContent>
-          <img src={content?.image_url} alt="blueprint" className="h-52 " />
-        </CardContent>
-        <CardHeader>
-          <CardTitle className="h-12">{content?.content_title}</CardTitle>
-          <CardDescription className="h-10">
-            {content?.short_description}
-          </CardDescription>
-        </CardHeader>
-        <CardFooter className="flex justify-between ">
-          <img
-            src={content?.creators?.company_logo}
-            alt={content?.creators?.company_name}
-            className="w-20"
-          />
-          <div className="flex gap-3 justify-between ml-auto  w-40">
-            <LuCalendarArrowUp className="h-8 w-8 " />
-            <Button
-              onClick={() =>
-                handleClickContent(content.content_id, content.is_blueprint)
-              }
-            >
-              Learn new skill
-            </Button>
-          </div>
-        </CardFooter>
-      </Card>
+      <>
+        <div className="mt-6">
+          <Card className="">
+            <div className="ml-6 my-3  ">
+              <Badge>{content?.categories?.category_name}</Badge>
+            </div>
+
+            <CardContent>
+              <img src={content.image_url} alt="blueprint" className="h-52 " />
+            </CardContent>
+            <CardHeader>
+              <CardTitle className="line-clamp-2 h-14">
+                {content.content_title}
+              </CardTitle>
+              <CardDescription className="line-clamp-3 h-16">
+                {content.short_description}
+              </CardDescription>
+            </CardHeader>
+            <CardFooter className="flex justify-between ">
+              <img
+                src={content.creators.company_logo}
+                alt={content.creators.company_name}
+                className="w-20 object-cover"
+              />
+              <div className="flex gap-3 items-center">
+                <LuCalendarArrowUp className="h-8 w-8 " />
+                <Button
+                  onClick={() =>
+                    handleClickContent(content.content_id, content.is_blueprint)
+                  }
+                  className="whitespace-nowrap"
+                >
+                  Learn
+                </Button>
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
+      </>
     </>
   );
 }

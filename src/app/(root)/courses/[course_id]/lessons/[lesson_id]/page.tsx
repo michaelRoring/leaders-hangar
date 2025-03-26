@@ -10,6 +10,8 @@ import NextLessonCard from "@/components/ui/molecules/NextLessonCard";
 import YouTube from "react-youtube";
 import { useAuth } from "@/app/(root)/providers";
 import { completeLesson } from "@/lib/data/lessonDetail";
+import { ToastContainer, toast } from "react-toastify";
+import { Loader2 } from "lucide-react";
 
 export default function LessonPage() {
   const params = useParams();
@@ -100,7 +102,7 @@ export default function LessonPage() {
 
     try {
       const result = await completeLesson(user.uid, courseId, lessonId);
-      console.log("Lesson completed:", result);
+      toast.success("Lesson completed successfully");
     } catch (error) {
       console.error("Error completing lesson:", error);
     }
@@ -109,19 +111,21 @@ export default function LessonPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-slate-900" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <span className="ml-2 ">Loading lesson details...</span>
       </div>
     );
   }
 
   if (!lesson) {
-    return <div>Lesson not found</div>;
+    return <div>Lesson not found. Error: {error}</div>;
   }
 
   return (
     <>
       {/* image/video section */}
       <div className="flex items-center justify-center ">
+        <ToastContainer />
         {lesson.video_url && getYouTubeVideoId(lesson.video_url) && (
           <YouTube
             videoId={getYouTubeVideoId(lesson.video_url)!}
@@ -135,7 +139,6 @@ export default function LessonPage() {
                 rel: 0,
               },
             }}
-            //   onEnd={handleVideoCompleted}
             //   onStateChange={handlePlayerStateChange}
             className="md:w-1/2 aspect-video rounded-xl"
             onEnd={handleVideoCompleted}

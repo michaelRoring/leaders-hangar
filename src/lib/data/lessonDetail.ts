@@ -50,7 +50,6 @@ export async function getLesson(
       //   course: rawLesson.modules[0].courses[0] || undefined
       // } : undefined
     };
-    console.log("lesson :", lesson);
     return lesson;
   } catch (error) {
     console.log(error);

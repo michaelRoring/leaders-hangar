@@ -25,7 +25,7 @@ export default function CourseCard({ course }: { course: Course }) {
     <>
       <div className="mt-6">
         <Card className="">
-          <div className="ml-6 my-3  ">
+          <div className="flex ml-6 my-3 gap-3 ">
             {course.courses_categories.map((category) => {
               return (
                 <Badge className="" key={category.categories.id}>
@@ -39,8 +39,10 @@ export default function CourseCard({ course }: { course: Course }) {
             <img src={course.image_url} alt="blueprint" className="h-52 " />
           </CardContent>
           <CardHeader>
-            <CardTitle className="h-12">{course.course_title}</CardTitle>
-            <CardDescription className="h-10">
+            <CardTitle className="line-clamp-2 h-14">
+              {course.course_title}
+            </CardTitle>
+            <CardDescription className="line-clamp-3 h-16">
               {course.short_description}
             </CardDescription>
           </CardHeader>

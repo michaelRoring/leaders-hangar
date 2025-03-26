@@ -10,7 +10,6 @@ interface ModuleCardProps {
 }
 
 export default function ModuleCard({ module }: ModuleCardProps) {
-  console.log("module :", module);
   const router = useRouter();
   const pathname = usePathname();
 
