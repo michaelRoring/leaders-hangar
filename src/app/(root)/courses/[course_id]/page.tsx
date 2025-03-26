@@ -124,6 +124,7 @@ export default function CourseOverview() {
           last_name={data.creators.last_name}
           job_title={data.creators.job_title}
           company_name={data.creators.company_name}
+          content_type="course"
         />
         <div className="md:flex md:justify-between">
           {/* course information */}

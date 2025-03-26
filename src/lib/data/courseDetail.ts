@@ -119,3 +119,30 @@ export async function getCourseCompletionPercentage(
 
   return integerPercentage;
 }
+
+export async function like(
+  userId: string,
+  contentId: string,
+  contentType: string
+) {
+  const supabase = await createClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("likes")
+      .upsert({
+        user_id: userId,
+        content_id: contentType === "content" ? contentId : null,
+        course_id: contentType === "course" ? contentId : null,
+      })
+      .single();
+
+    if (error) throw error;
+
+    console.log("data :", data);
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}

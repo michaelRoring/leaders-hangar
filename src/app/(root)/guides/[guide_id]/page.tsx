@@ -73,6 +73,7 @@ export default function GuideDetailPage() {
               last_name={content.creators.last_name}
               job_title={content.creators.job_title}
               company_name={content.creators.company_name}
+              content_type="content"
             />
           )}
 

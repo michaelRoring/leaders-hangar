@@ -102,6 +102,7 @@ export default function BlueprintDetailPage() {
               last_name={content.creators.last_name}
               job_title={content.creators.job_title}
               company_name={content.creators.company_name}
+              content_type="content"
             />
           )}
           <div className="md:flex md:justify-start md:gap-6 ">

@@ -125,7 +125,6 @@ export default function LessonPage() {
     <>
       {/* image/video section */}
       <div className="flex items-center justify-center ">
-        <ToastContainer />
         {lesson.video_url && getYouTubeVideoId(lesson.video_url) && (
           <YouTube
             videoId={getYouTubeVideoId(lesson.video_url)!}
@@ -168,6 +167,7 @@ export default function LessonPage() {
           />
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 }
