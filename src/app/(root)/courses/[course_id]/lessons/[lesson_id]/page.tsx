@@ -165,7 +165,7 @@ export default function LessonPage() {
           />
         </div>
       </div>
-      <ToastContainer />
+      <ToastContainer className="rounded-2xl" />
     </>
   );
 }
