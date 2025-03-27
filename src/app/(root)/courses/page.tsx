@@ -9,7 +9,7 @@ export default async function Courses() {
   return (
     <>
       <TitleCard />
-      <h1 className="text-4xl">All Courses</h1>
+      <h1 className="text-2xl font-bold mt-6">All Courses</h1>
       <div className="mt-6 md:grid md:grid-cols-3 md:gap-6">
         {data?.map((course: Course) => {
           return <CourseCard key={course.course_id} course={course} />;
