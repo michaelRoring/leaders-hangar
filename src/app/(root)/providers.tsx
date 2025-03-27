@@ -1,4 +1,3 @@
-// app/(root)/providers.tsx
 "use client";
 
 import { UserInformation } from "@/types/user";
@@ -25,28 +24,23 @@ const AuthContext = createContext<AuthContextProps>({
   setUser: () => {},
 });
 
-// *** IMPORTANT: Add initialUser to this interface ***
 interface AuthProviderProps {
   children: ReactNode;
-  initialUser: UserInformation | null; // Add this line
+  initialUser: UserInformation | null;
 }
 
-export const AuthProvider = ({
-  children,
-  initialUser, // Destructure initialUser here
-}: AuthProviderProps) => {
-  // Initialize user state with initialUser
+export const AuthProvider = ({ children, initialUser }: AuthProviderProps) => {
   const [user, setUser] = useState<UserInformation | null>(initialUser);
-  const [loading, setLoading] = useState<boolean>(!initialUser); // Start loading only if no initialUser
+  const [loading, setLoading] = useState<boolean>(!initialUser);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    // Only fetch if initialUser is null (wasn't provided by SSR)
     if (!initialUser) {
       const fetchUser = async () => {
         try {
           const userData = await getUserClient();
           setUser(userData);
+          console.log("hello harimau malaya");
         } catch (err: any) {
           setError(err);
         } finally {
@@ -56,7 +50,7 @@ export const AuthProvider = ({
 
       fetchUser();
     }
-  }, [initialUser]); // Add initialUser to the dependency array
+  }, [initialUser]);
 
   const contextValue = {
     user,

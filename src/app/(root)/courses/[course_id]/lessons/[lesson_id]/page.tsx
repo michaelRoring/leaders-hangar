@@ -54,7 +54,6 @@ export default function LessonPage() {
           }
 
           setLesson(data);
-          console.log("data :", data);
           setCourseId(data.modules.courses.course_id);
         }
       } catch (error) {
@@ -132,7 +131,6 @@ export default function LessonPage() {
               width: "100%",
               height: "100%",
               playerVars: {
-                // https://developers.google.com/youtube/player_parameters
                 autoplay: 0,
                 modestbranding: 1,
                 rel: 0,

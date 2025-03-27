@@ -37,5 +37,6 @@ export const getUserClient = async (): Promise<UserInformation | null> => {
       data.user.user_metadata.last_name,
     email: data.user.email!,
     avatar: users[0].avatar,
+    first_name: data.user.user_metadata.first_name,
   };
 };

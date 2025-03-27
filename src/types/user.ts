@@ -82,4 +82,5 @@ export interface UserInformation {
   name: string;
   email: string;
   avatar: string;
+  first_name?: string;
 }
