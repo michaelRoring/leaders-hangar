@@ -11,25 +11,24 @@ export async function getLesson(
       .from("lessons")
       .select(
         `
-      lesson_id,
-      lesson_title,
-      sequence,
-      long_description,
-      image_url,
-      video_url,
-      module_id,
-      modules!inner (
-        module_id,
-        module_title,
+        lesson_id,
+        lesson_title,
         sequence,
-        course_id,
-        courses!inner (
+        long_description,
+        image_url,
+        video_url,
+        module_id,
+        modules!inner (
+          module_id,
+          module_title,
+          sequence,
           course_id,
-          course_title
+          courses!inner (
+            course_id,
+            course_title
+          )
         )
-      )
-  
-    `
+      `
       )
       .eq("lesson_id", lesson_id)
       .single();
@@ -43,8 +42,8 @@ export async function getLesson(
       return null;
     }
 
-    const rawModule = rawLessonData.modules?.[0];
-    const rawCourse = rawModule?.courses?.[0];
+    const moduleData = rawLessonData.modules as any;
+    const courseData = moduleData ? (moduleData.courses as any) : undefined;
 
     const lesson: LessonWithRelations = {
       lesson_id: rawLessonData.lesson_id,
@@ -55,16 +54,16 @@ export async function getLesson(
       video_url: rawLessonData.video_url,
       module_id: rawLessonData.module_id,
 
-      modules: rawModule
+      modules: moduleData
         ? {
-            module_id: rawModule.module_id,
-            module_title: rawModule.module_title,
-            sequence: rawModule.sequence,
-            course_id: rawModule.course_id,
-            courses: rawCourse
+            module_id: moduleData.module_id,
+            module_title: moduleData.module_title,
+            sequence: moduleData.sequence,
+            course_id: moduleData.course_id,
+            courses: courseData
               ? {
-                  course_id: rawCourse.course_id,
-                  course_title: rawCourse.course_title,
+                  course_id: courseData.course_id,
+                  course_title: courseData.course_title,
                 }
               : undefined,
           }

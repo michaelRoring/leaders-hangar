@@ -16,9 +16,10 @@ import { Loader2 } from "lucide-react";
 export default function LessonPage() {
   const params = useParams();
   const lessonId = params.lesson_id;
+  const courseId = params.course_id;
   const { user } = useAuth();
 
-  const [courseId, setCourseId] = useState<string>("");
+  // const [courseId, setCourseId] = useState<string>("");
   const [lesson, setLesson] = useState<LessonWithRelations | null>(null);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,18 +44,18 @@ export default function LessonPage() {
             return;
           }
 
-          if (!data.modules) {
-            setError("Lesson module information is missing");
-            return;
-          }
+          // if (!data.modules) {
+          //   setError("Lesson module information is missing");
+          //   return;
+          // }
 
-          if (!data.modules.courses) {
-            setError("Course information is missing");
-            return;
-          }
+          // if (!data?.modules?.courses) {
+          //   setError("Course information is missing");
+          //   return;
+          // }
 
           setLesson(data);
-          setCourseId(data.modules.courses.course_id);
+          // setCourseId(data.modules.courses.course_id);
         }
       } catch (error) {
         console.error("Error loading lesson data:", error);
