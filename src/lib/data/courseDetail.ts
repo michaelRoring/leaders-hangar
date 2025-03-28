@@ -30,6 +30,10 @@ export async function getCourse(course_id: string): Promise<Course | null> {
           short_description,
           sequence
         )
+      ),
+      users_lessons (
+        lesson_id,
+        status
       )
     `
       )

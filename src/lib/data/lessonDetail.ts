@@ -28,6 +28,7 @@ export async function getLesson(
           course_title
         )
       )
+  
     `
       )
       .eq("lesson_id", lesson_id)

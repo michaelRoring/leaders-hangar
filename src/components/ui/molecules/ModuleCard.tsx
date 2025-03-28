@@ -4,12 +4,18 @@ import { Module } from "@/types/courses";
 import { Badge } from "../shadcn/badge";
 import { ChevronRight } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
+import { LessonProgress } from "@/types/courses";
+import { CheckCheck } from "lucide-react";
 
 interface ModuleCardProps {
   module: Module;
+  lessonProgress?: LessonProgress[];
 }
 
-export default function ModuleCard({ module }: ModuleCardProps) {
+export default function ModuleCard({
+  module,
+  lessonProgress,
+}: ModuleCardProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -33,12 +39,32 @@ export default function ModuleCard({ module }: ModuleCardProps) {
             <Badge variant="secondary">{module.duration} minutes</Badge>
           </div>
           <h1 className="text-xl font-bold mt-3">{module.module_title}</h1>
-          {/* <div className="h-48"> */}
           <h1 className="mt-3 line-clamp-5 md:line-clamp-3">
             {module.short_description}
           </h1>
-          {/* </div> */}
           {module.lessons.map((lesson) => {
+            const isCompleted = lessonProgress?.find(
+              (progress) => progress.lesson_id === lesson.lesson_id
+            );
+
+            if (isCompleted) {
+              return (
+                <div
+                  key={lesson.lesson_id}
+                  className="bg-slate-400 mt-3 px-3 py-1 rounded-md hover:bg-slate-500 cursor-pointer transition-all duration-300 ease-in-out"
+                  onClick={() => handleClick(lesson.lesson_id)}
+                >
+                  <div className="flex md:justify-between">
+                    <div className="flex gap-3">
+                      <CheckCheck className="text-white" />
+                      <h1 className="text-white">{lesson.lesson_title}</h1>
+                    </div>
+                    <ChevronRight className="text-white" />
+                  </div>
+                </div>
+              );
+            }
+
             return (
               <div
                 key={lesson.lesson_id}

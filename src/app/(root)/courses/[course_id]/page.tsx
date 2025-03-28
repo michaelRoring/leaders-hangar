@@ -9,7 +9,7 @@ import {
 } from "@/lib/data/courseDetail";
 import { Button } from "@/components/ui/shadcn/button";
 import { useState, useEffect } from "react";
-import { Course } from "@/types/courses";
+import { Course, LessonProgress } from "@/types/courses";
 import CreatorInformation from "@/components/ui/molecules/CreatorInformation";
 import StudyProgress from "@/components/ui/molecules/StudyProgress";
 import ModuleCard from "@/components/ui/molecules/ModuleCard";
@@ -25,6 +25,7 @@ export default function CourseOverview() {
   const [isLoadingEnrollment, setIsLoadingEnrollment] = useState(false);
   const [shouldEnroll, setShouldEnroll] = useState(false);
   const [progress, setProgress] = useState<number>(0);
+  const [lessonProgress, setLessonProgress] = useState<LessonProgress[]>([]);
   const { user } = useAuth();
 
   if (!courseId || courseId instanceof Array) {
@@ -52,7 +53,16 @@ export default function CourseOverview() {
       try {
         setLoading(true);
         const data = await getCourse(courseId);
+
+        const lessonProgressData = data?.users_lessons.map((lesson) => ({
+          lesson_id: lesson.lesson_id,
+          status: lesson.status,
+        }));
+
         setData(data);
+        const progressToSet = lessonProgressData || [];
+
+        setLessonProgress(progressToSet);
 
         if (user?.uid) {
           const enrolled = await checkCourseRegistration(courseId, user.uid);
@@ -181,7 +191,13 @@ export default function CourseOverview() {
               course_title={data.course_title}
             />
             {data.modules.map((module) => {
-              return <ModuleCard key={module.module_id} module={module} />;
+              return (
+                <ModuleCard
+                  key={module.module_id}
+                  module={module}
+                  lessonProgress={lessonProgress}
+                />
+              );
             })}
           </div>
         </div>

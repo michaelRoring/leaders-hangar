@@ -14,6 +14,11 @@ export interface Lesson {
   modules?: Module;
 }
 
+export interface LessonProgress {
+  lesson_id: string;
+  status: string;
+}
+
 export interface Module {
   module_id: string;
   lessons: Lesson[];
@@ -40,6 +45,7 @@ export interface Course {
   courses_categories: CoursesCategory[];
   creators: Creator;
   modules: Module[];
+  users_lessons: LessonProgress[];
 }
 
 export interface CoursesCategory {
