@@ -40,18 +40,18 @@ export async function getLesson(
 
     // Transform the data to match your interface
 
-    const lesson: LessonWithRelations = {
-      ...rawLesson,
-      // If you want to keep the array structure:
-      // modules: rawLesson.modules,
+    // const lesson: LessonWithRelations = {
+    //   ...rawLesson,
+    //   // If you want to keep the array structure:
+    //   // modules: rawLesson.modules,
 
-      // OR if you want to extract just the first module/course:
-      // module: rawLesson.modules[0] ? {
-      //   ...rawLesson.modules[0],
-      //   course: rawLesson.modules[0].courses[0] || undefined
-      // } : undefined
-    };
-    return lesson;
+    //   // OR if you want to extract just the first module/course:
+    //   // module: rawLesson.modules[0] ? {
+    //   //   ...rawLesson.modules[0],
+    //   //   course: rawLesson.modules[0].courses[0] || undefined
+    //   // } : undefined
+    // };
+    return rawLesson;
   } catch (error) {
     console.log(error);
     return null;
@@ -83,11 +83,42 @@ export async function completeLesson(
   const supabase = await createClient();
 
   try {
+    const { data, error } = await supabase.from("users_lessons").upsert(
+      {
+        user_id: userId,
+        course_id: courseId,
+        lesson_id: lessonId,
+        modified_at: new Date().toISOString(),
+        status: "completed",
+      },
+      {
+        onConflict: "user_id, lesson_id",
+      }
+    );
+
+    if (error) throw error;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export async function startLesson(
+  userId: string,
+  courseId: string,
+  lessonId: string
+) {
+  const supabase = await createClient();
+
+  try {
     const { data, error } = await supabase.from("users_lessons").upsert({
       user_id: userId,
       course_id: courseId,
       lesson_id: lessonId,
-      status: "completed",
+      modified_at: new Date().toISOString(),
+      status: "in_progress",
     });
 
     if (error) throw error;

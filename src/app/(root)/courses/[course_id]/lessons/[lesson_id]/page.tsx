@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { LessonWithRelations } from "@/types/lessonDetail";
-import { getLesson } from "@/lib/data/lessonDetail";
+import { getLesson, startLesson } from "@/lib/data/lessonDetail";
 import { ResponsiveMarkdown } from "@/components/ui/molecules/ResponsiveMarkdown";
 import { getNextLessonInformation } from "@/lib/data/lessonDetail";
 import NextLessonCard from "@/components/ui/molecules/NextLessonCard";
@@ -107,6 +107,23 @@ export default function LessonPage() {
     }
   };
 
+  const handleVideoStart = async (event: any) => {
+    if (
+      !user?.uid ||
+      !courseId ||
+      !lessonId ||
+      typeof courseId !== "string" ||
+      typeof lessonId !== "string"
+    )
+      return;
+
+    try {
+      const result = await startLesson(user.uid, courseId, lessonId);
+    } catch (error) {
+      console.error("Error starting lesson:", error);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -138,6 +155,7 @@ export default function LessonPage() {
             }}
             //   onStateChange={handlePlayerStateChange}
             className="md:w-1/2 aspect-video rounded-xl"
+            onPlay={handleVideoStart}
             onEnd={handleVideoCompleted}
           />
         )}

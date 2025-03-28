@@ -2,10 +2,9 @@
 
 import { Module } from "@/types/courses";
 import { Badge } from "../shadcn/badge";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, CheckCheck, NotebookPen } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { LessonProgress } from "@/types/courses";
-import { CheckCheck } from "lucide-react";
 
 interface ModuleCardProps {
   module: Module;
@@ -47,7 +46,7 @@ export default function ModuleCard({
               (progress) => progress.lesson_id === lesson.lesson_id
             );
 
-            if (isCompleted) {
+            if (isCompleted?.status === "completed") {
               return (
                 <div
                   key={lesson.lesson_id}
@@ -57,6 +56,24 @@ export default function ModuleCard({
                   <div className="flex md:justify-between">
                     <div className="flex gap-3">
                       <CheckCheck className="text-white" />
+                      <h1 className="text-white">{lesson.lesson_title}</h1>
+                    </div>
+                    <ChevronRight className="text-white" />
+                  </div>
+                </div>
+              );
+            }
+
+            if (isCompleted?.status === "in_progress") {
+              return (
+                <div
+                  key={lesson.lesson_id}
+                  className="bg-green-500 mt-3 px-3 py-1 rounded-md hover:bg-green-600 cursor-pointer transition-all duration-300 ease-in-out"
+                  onClick={() => handleClick(lesson.lesson_id)}
+                >
+                  <div className="flex md:justify-between">
+                    <div className="flex gap-3">
+                      <NotebookPen className="text-white" />
                       <h1 className="text-white">{lesson.lesson_title}</h1>
                     </div>
                     <ChevronRight className="text-white" />

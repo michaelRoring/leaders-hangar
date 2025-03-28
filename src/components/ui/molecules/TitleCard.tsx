@@ -37,7 +37,7 @@ export default function TitleCard() {
           `
           )
           .eq("user_id", user?.uid)
-          .order("created_at", { ascending: false })
+          .order("modified_at", { ascending: false })
           .limit(1);
 
         if (error) {
