@@ -1,8 +1,8 @@
 "use client";
-import Like from "@/assets/public/like.svg";
-import Calendar from "@/assets/public/calendar.svg";
-import Share from "@/assets/public/share.svg";
-import Wishlist from "@/assets/public/wishlist.svg";
+import Like from "@/assets/public/Like.svg";
+import Calendar from "@/assets/public/Calendar.svg";
+import Share from "@/assets/public/Share.svg";
+import Wishlist from "@/assets/public/Wishlist.svg";
 import { usePathname, useParams } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import { bookmark, like } from "@/lib/data/courseDetail";
