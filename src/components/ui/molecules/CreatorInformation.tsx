@@ -5,7 +5,7 @@ import Share from "@/assets/public/share.svg";
 import Wishlist from "@/assets/public/wishlist.svg";
 import { usePathname, useParams } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
-import { like } from "@/lib/data/courseDetail";
+import { bookmark, like } from "@/lib/data/courseDetail";
 import { useAuth } from "@/app/(root)/providers";
 import { useEffect, useState } from "react";
 
@@ -81,6 +81,24 @@ export default function CreatorInformation({
     }
   };
 
+  const handleBookmark = async () => {
+    try {
+      if (!user) {
+        throw new Error("Invalid user or content id");
+      }
+
+      const result = await bookmark(
+        user?.uid,
+        contentData.contentId,
+        contentData.contentType
+      );
+      toast.success("Content bookmarked 📌");
+    } catch (error) {
+      console.error("Error bookmarking:", error);
+      toast.error("Error in bookmark");
+    }
+  };
+
   return (
     <>
       <div className="md:flex md:justify-between mt-6">
@@ -116,7 +134,10 @@ export default function CreatorInformation({
             // className="cursor-pointer hover:bg-slate-200 hover:rounded-lg hover:shadow-md"
             />
           </div>
-          <div className="rounded-xl transition-all duration-300 hover:bg-gray-100 hover:scale-110 cursor-pointer">
+          <div
+            className="rounded-xl transition-all duration-300 hover:bg-gray-100 hover:scale-110 cursor-pointer"
+            onClick={handleBookmark}
+          >
             <Wishlist />
           </div>
           <div
