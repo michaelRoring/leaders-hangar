@@ -7,7 +7,7 @@ export async function getLesson(
   const supabase = await createClient();
 
   try {
-    const { data: rawLesson, error } = await supabase
+    const { data: rawLessonData, error } = await supabase
       .from("lessons")
       .select(
         `
@@ -38,20 +38,40 @@ export async function getLesson(
       throw error;
     }
 
-    // Transform the data to match your interface
+    if (!rawLessonData) {
+      console.log(`Lesson with id ${lesson_id} not found.`);
+      return null;
+    }
 
-    // const lesson: LessonWithRelations = {
-    //   ...rawLesson,
-    //   // If you want to keep the array structure:
-    //   // modules: rawLesson.modules,
+    const rawModule = rawLessonData.modules?.[0];
+    const rawCourse = rawModule?.courses?.[0];
 
-    //   // OR if you want to extract just the first module/course:
-    //   // module: rawLesson.modules[0] ? {
-    //   //   ...rawLesson.modules[0],
-    //   //   course: rawLesson.modules[0].courses[0] || undefined
-    //   // } : undefined
-    // };
-    return rawLesson;
+    const lesson: LessonWithRelations = {
+      lesson_id: rawLessonData.lesson_id,
+      lesson_title: rawLessonData.lesson_title,
+      sequence: rawLessonData.sequence,
+      long_description: rawLessonData.long_description,
+      image_url: rawLessonData.image_url,
+      video_url: rawLessonData.video_url,
+      module_id: rawLessonData.module_id,
+
+      modules: rawModule
+        ? {
+            module_id: rawModule.module_id,
+            module_title: rawModule.module_title,
+            sequence: rawModule.sequence,
+            course_id: rawModule.course_id,
+            courses: rawCourse
+              ? {
+                  course_id: rawCourse.course_id,
+                  course_title: rawCourse.course_title,
+                }
+              : undefined,
+          }
+        : undefined,
+    };
+
+    return lesson;
   } catch (error) {
     console.log(error);
     return null;
