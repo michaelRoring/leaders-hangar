@@ -12,6 +12,8 @@ import { Skeleton } from "@/components/ui/shadcn/skeleton";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { CiSaveDown2 } from "react-icons/ci";
+import CreatorInformation from "@/components/ui/molecules/CreatorInformation";
+import { ResponsiveMarkdown } from "@/components/ui/molecules/ResponsiveMarkdown";
 
 export default function GuideDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -64,35 +66,17 @@ export default function GuideDetailPage() {
             />
           </div>
           {/* creators information */}
-          <div className="md:flex md:justify-between">
-            <div className="flex mt-6  ">
-              <div>
-                <img
-                  src={content?.creators?.profile_picture}
-                  height={50}
-                  width={50}
-                  className="rounded-xl"
-                />
-              </div>
-              <div className="ml-4">
-                <TypographyH4>{content?.creators?.first_name}</TypographyH4>
-                <p>
-                  {content?.creators?.job_title} at{" "}
-                  <a className="text-blue-700">
-                    {content?.creators?.company_name}
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div className="flex mr-3">
-              <CiSaveDown2 className="h-12 w-12" />
-              <CiSaveDown2 className="h-12 w-12" />
-              <CiSaveDown2 className="h-12 w-12" />
-              <CiSaveDown2 className="h-12 w-12" />
-            </div>
-          </div>
-          {/* engagement icons */}
-          <div>{/* <img src={} /> */}</div>
+          {content && (
+            <CreatorInformation
+              profile_picture={content.creators.profile_picture}
+              first_name={content.creators.first_name}
+              last_name={content.creators.last_name}
+              job_title={content.creators.job_title}
+              company_name={content.creators.company_name}
+              content_type="content"
+            />
+          )}
+
           <div className="md:flex md:justify-start md:gap-6 ">
             {/* previews */}
             <div className="mt-6 ">
@@ -107,14 +91,8 @@ export default function GuideDetailPage() {
                 Published on {formatDate(content?.created_at)}
               </p>
               {/* content descriptions */}
-              <div className="markdown-content mt-12">
-                <ReactMarkdown
-                  rehypePlugins={[rehypeRaw]}
-                  {...(content?.long_description
-                    ? { children: content.long_description }
-                    : {})}
-                />
-              </div>
+
+              <ResponsiveMarkdown content={content?.long_description} />
             </div>
             {/* content informations */}
             <div className="md:min-w-fit md:sticky md:top-0"></div>

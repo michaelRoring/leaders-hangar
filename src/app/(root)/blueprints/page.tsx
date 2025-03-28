@@ -30,9 +30,7 @@ export default async function Blueprints() {
     <>
       {/* <DynamicBreadcrumb /> */}
 
-      <TitleCard
-        firstName={user?.user?.user_metadata?.first_name || "John Doe"}
-      />
+      <TitleCard />
       <div className="mt-12 ">
         <TypographyH3>All Blueprints</TypographyH3>
         <div className="w-fit mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr">

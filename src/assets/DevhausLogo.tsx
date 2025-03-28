@@ -1,4 +1,4 @@
-const DevhausLogo = ({width = 174, height = 35}) => {
+const DevhausLogo = ({ width = 174, height = 35 }) => {
   return (
     <svg
       width={width}
@@ -55,9 +55,9 @@ const DevhausLogo = ({width = 174, height = 35}) => {
           width="135.899"
           height="28.1959"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          // color-interpolation-filters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          {/* <feFlood flood-opacity="0" result="BackgroundImageFix" /> */}
           <feBlend
             mode="normal"
             in="SourceGraphic"
@@ -108,9 +108,9 @@ const DevhausLogo = ({width = 174, height = 35}) => {
           width="167.555"
           height="20.0533"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          // color-interpolation-filters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          {/* <feFlood flood-opacity="0" result="BackgroundImageFix" /> */}
           <feBlend
             mode="normal"
             in="SourceGraphic"

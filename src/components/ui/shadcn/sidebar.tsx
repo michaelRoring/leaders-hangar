@@ -70,33 +70,77 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
 
-    // This is the internal state of the sidebar.
-    // We use openProp and setOpenProp for control from outside the component.
+    // Always start with the same state on server and client for hydration
     const [_open, _setOpen] = React.useState(defaultOpen);
-    const open = openProp ?? _open;
+
+    // Track client-side hydration
+    const [isHydrated, setIsHydrated] = React.useState(false);
+
+    // After hydration, read the cookie
+    React.useEffect(() => {
+      setIsHydrated(true);
+
+      try {
+        // Skip if we're controlled externally
+        if (openProp !== undefined) return;
+
+        const cookieString = document.cookie;
+        const match = new RegExp(`${SIDEBAR_COOKIE_NAME}=([^;]+)`).exec(
+          cookieString
+        );
+
+        if (match) {
+          const value = match[1].trim();
+          _setOpen(value === "true");
+        }
+      } catch (error) {
+        console.error("Error reading sidebar cookie:", error);
+      }
+    }, [openProp]);
+
+    // Controlled or uncontrolled state
+    const open = openProp !== undefined ? openProp : _open;
+
+    // Update handler
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {
         const openState = typeof value === "function" ? value(open) : value;
+
         if (setOpenProp) {
           setOpenProp(openState);
         } else {
           _setOpen(openState);
         }
 
-        // This sets the cookie to keep the sidebar state.
-        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+        // Only set cookie on the client
+        if (typeof window !== "undefined") {
+          try {
+            document.cookie = `${SIDEBAR_COOKIE_NAME}=${String(
+              openState
+            )}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+          } catch (error) {
+            console.error("Error setting sidebar cookie:", error);
+          }
+        }
       },
       [setOpenProp, open]
     );
 
-    // Helper to toggle the sidebar.
+    // Sync with external control prop
+    React.useEffect(() => {
+      if (openProp !== undefined && openProp !== _open) {
+        _setOpen(openProp);
+      }
+    }, [openProp, _open]);
+
+    // Helper to toggle the sidebar
     const toggleSidebar = React.useCallback(() => {
       return isMobile
         ? setOpenMobile((open) => !open)
         : setOpen((open) => !open);
     }, [isMobile, setOpen, setOpenMobile]);
 
-    // Adds a keyboard shortcut to toggle the sidebar.
+    // Adds a keyboard shortcut to toggle the sidebar
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (
@@ -108,12 +152,13 @@ const SidebarProvider = React.forwardRef<
         }
       };
 
-      window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [toggleSidebar]);
+      if (isHydrated) {
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+      }
+    }, [toggleSidebar, isHydrated]);
 
-    // We add a state so that we can do data-state="expanded" or "collapsed".
-    // This makes it easier to style the sidebar with Tailwind classes.
+    // We add a state so that we can do data-state="expanded" or "collapsed"
     const state = open ? "expanded" : "collapsed";
 
     const contextValue = React.useMemo<SidebarContext>(
@@ -271,7 +316,7 @@ const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      className={cn("h-7 w-7 ", className)}
+      className={cn("h-12 w-36 ", className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
@@ -705,15 +750,16 @@ const SidebarMenuSubItem = React.forwardRef<
 >(({ ...props }, ref) => <li ref={ref} {...props} />);
 SidebarMenuSubItem.displayName = "SidebarMenuSubItem";
 
+// Modified to use a div instead of an anchor to avoid hydration errors
 const SidebarMenuSubButton = React.forwardRef<
-  HTMLAnchorElement,
-  React.ComponentProps<"a"> & {
+  HTMLDivElement,
+  React.ComponentProps<"div"> & {
     asChild?: boolean;
     size?: "sm" | "md";
     isActive?: boolean;
   }
 >(({ asChild = false, size = "md", isActive, className, ...props }, ref) => {
-  const Comp = asChild ? Slot : "a";
+  const Comp = asChild ? Slot : "div";
 
   return (
     <Comp

@@ -14,6 +14,8 @@ import { Skeleton } from "@/components/ui/shadcn/skeleton";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { CiSaveDown2 } from "react-icons/ci";
+import { ResponsiveMarkdown } from "@/components/ui/molecules/ResponsiveMarkdown";
+import CreatorInformation from "@/components/ui/molecules/CreatorInformation";
 
 export default function BlueprintDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -66,7 +68,7 @@ export default function BlueprintDetailPage() {
             />
           </div>
           {/* creators information */}
-          <div className="md:flex md:justify-between">
+          {/* <div className="md:flex md:justify-between">
             <div className="flex mt-6  ">
               <div>
                 <img
@@ -92,9 +94,17 @@ export default function BlueprintDetailPage() {
               <CiSaveDown2 className="h-12 w-12" />
               <CiSaveDown2 className="h-12 w-12" />
             </div>
-          </div>
-          {/* engagement icons */}
-          <div>{/* <img src={} /> */}</div>
+          </div> */}
+          {content && (
+            <CreatorInformation
+              profile_picture={content.creators.profile_picture}
+              first_name={content.creators.first_name}
+              last_name={content.creators.last_name}
+              job_title={content.creators.job_title}
+              company_name={content.creators.company_name}
+              content_type="content"
+            />
+          )}
           <div className="md:flex md:justify-start md:gap-6 ">
             {/* previews */}
             <div className="mt-6 ">
@@ -109,17 +119,12 @@ export default function BlueprintDetailPage() {
                 ))}
               </div>
               {/* content descriptions */}
-              <div className="markdown-content mt-12">
-                <ReactMarkdown
-                  rehypePlugins={[rehypeRaw]}
-                  {...(content?.long_description
-                    ? { children: content.long_description }
-                    : {})}
-                />
-              </div>
+
+              <ResponsiveMarkdown content={content?.long_description} />
             </div>
             {/* content informations */}
-            <div className="md:min-w-fit md:sticky md:top-0">
+            {/* <div className="md:min-w-fit md:sticky md:top-0"> */}
+            <div className="md:min-w-fit md:sticky md:top-20 md:self-start md:h-fit">
               <div className="flex mt-6 gap-6">
                 <Badge>{content?.categories?.category_name}</Badge>
                 <p>{content?.minutes_read} minutes read</p>

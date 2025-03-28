@@ -1,4 +1,13 @@
-import { CiSaveDown2 } from "react-icons/ci";
+"use client";
+import Like from "@/assets/public/like.svg";
+import Calendar from "@/assets/public/calendar.svg";
+import Share from "@/assets/public/share.svg";
+import Wishlist from "@/assets/public/wishlist.svg";
+import { usePathname, useParams } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import { bookmark, like } from "@/lib/data/courseDetail";
+import { useAuth } from "@/app/(root)/providers";
+import { useEffect, useState } from "react";
 
 interface CreatorInformationProps {
   profile_picture: string;
@@ -6,6 +15,7 @@ interface CreatorInformationProps {
   last_name: string;
   job_title: string;
   company_name: string;
+  content_type?: string;
 }
 
 export default function CreatorInformation({
@@ -15,6 +25,80 @@ export default function CreatorInformation({
   job_title,
   company_name,
 }: CreatorInformationProps) {
+  const pathname = usePathname();
+  const params = useParams();
+  const { user } = useAuth();
+
+  const [contentData, setContentData] = useState({
+    contentType: "",
+    contentId: "",
+  });
+
+  useEffect(() => {
+    const fetchData = () => {
+      const courseId = params.course_id;
+      const contentId = params.guide_id || params.blueprint_id;
+
+      if (courseId) {
+        setContentData({
+          contentType: "course",
+          contentId: courseId.toString(),
+        });
+      }
+
+      if (contentId) {
+        setContentData({
+          contentType: "content",
+          contentId: contentId.toString(),
+        });
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(`${window.location.origin}${pathname}`);
+    toast.success("Link is copied 📋");
+  };
+
+  const handleLike = async () => {
+    try {
+      if (!user) {
+        throw new Error("Invalid user or content id");
+      }
+
+      const result = await like(
+        user?.uid,
+        contentData.contentId,
+        contentData.contentType
+      );
+
+      toast.success("Awesome pick! Content liked 🧡");
+    } catch (error) {
+      console.error("Error liking:", error);
+      toast.error("Error in like");
+    }
+  };
+
+  const handleBookmark = async () => {
+    try {
+      if (!user) {
+        throw new Error("Invalid user or content id");
+      }
+
+      const result = await bookmark(
+        user?.uid,
+        contentData.contentId,
+        contentData.contentType
+      );
+      toast.success("Content bookmarked 📌");
+    } catch (error) {
+      console.error("Error bookmarking:", error);
+      toast.error("Error in bookmark");
+    }
+  };
+
   return (
     <>
       <div className="md:flex md:justify-between mt-6">
@@ -37,13 +121,34 @@ export default function CreatorInformation({
         </div>
 
         {/* social buttons */}
-        <div className="flex mt-3">
-          <CiSaveDown2 className="h-8 w-8" />
-          <CiSaveDown2 className="h-8 w-8" />
-          <CiSaveDown2 className="h-8 w-8" />
-          <CiSaveDown2 className="h-8 w-8" />
+        <div className="flex mt-6 gap-3 ">
+          <div className="rounded-xl transition-all duration-300 hover:bg-gray-100 hover:scale-110 cursor-pointer">
+            <Calendar />
+          </div>
+          <div
+            className="rounded-xl transition-all duration-300 hover:bg-gray-100 hover:scale-110 cursor-pointer"
+            onClick={handleCopyLink}
+          >
+            <Share
+
+            // className="cursor-pointer hover:bg-slate-200 hover:rounded-lg hover:shadow-md"
+            />
+          </div>
+          <div
+            className="rounded-xl transition-all duration-300 hover:bg-gray-100 hover:scale-110 cursor-pointer"
+            onClick={handleBookmark}
+          >
+            <Wishlist />
+          </div>
+          <div
+            className="rounded-xl transition-all duration-300 hover:bg-gray-100 hover:scale-110 cursor-pointer"
+            onClick={handleLike}
+          >
+            <Like />
+          </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 }
