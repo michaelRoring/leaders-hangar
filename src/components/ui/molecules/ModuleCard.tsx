@@ -9,11 +9,13 @@ import { LessonProgress } from "@/types/courses";
 interface ModuleCardProps {
   module: Module;
   lessonProgress?: LessonProgress[];
+  isEnrolled: boolean;
 }
 
 export default function ModuleCard({
   module,
   lessonProgress,
+  isEnrolled,
 }: ModuleCardProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -46,7 +48,23 @@ export default function ModuleCard({
               (progress) => progress.lesson_id === lesson.lesson_id
             );
 
-            if (isCompleted?.status === "completed") {
+            if (!isEnrolled) {
+              return (
+                <div
+                  key={lesson.lesson_id}
+                  className="bg-zinc-300 mt-3 px-3 py-1 rounded-md hover:bg-zinc-400 cursor-not-allowed  transition-all duration-300 ease-in-out"
+                >
+                  <div className="flex md:justify-between">
+                    <div className="flex gap-3">
+                      <h1 className="text-white">{lesson.lesson_title} a</h1>
+                    </div>
+                    <ChevronRight className="text-white" />
+                  </div>
+                </div>
+              );
+            }
+
+            if (isCompleted?.status === "completed" && isEnrolled) {
               return (
                 <div
                   key={lesson.lesson_id}
@@ -56,7 +74,7 @@ export default function ModuleCard({
                   <div className="flex md:justify-between">
                     <div className="flex gap-3">
                       <CheckCheck className="text-white" />
-                      <h1 className="text-white">{lesson.lesson_title}</h1>
+                      <h1 className="text-white">{lesson.lesson_title} b </h1>
                     </div>
                     <ChevronRight className="text-white" />
                   </div>
