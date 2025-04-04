@@ -107,7 +107,7 @@ const mainNavItems = [
         id: "plan",
         icon: <Sparkles strokeWidth={1.5} color="#030033" />,
         label: "Plan",
-        link: "/",
+        link: "/plan",
       },
       {
         id: "forecast",
