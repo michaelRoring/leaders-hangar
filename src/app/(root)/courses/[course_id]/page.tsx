@@ -15,9 +15,11 @@ import StudyProgress from "@/components/ui/molecules/StudyProgress";
 import ModuleCard from "@/components/ui/molecules/ModuleCard";
 import { useAuth } from "../../providers";
 import { Loader2 } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function CourseOverview() {
   const params = useParams();
+
   const courseId = params.course_id;
   const [data, setData] = useState<Course | null>(null);
   const [isLoading, setLoading] = useState(true);
@@ -88,6 +90,7 @@ export default function CourseOverview() {
 
         if (enrollStatus) {
           setEnrolled(true);
+          toast.success("You are now enrolled in this course");
         }
       } catch (err) {
         console.error("Enrollment failed:", err);
@@ -196,12 +199,14 @@ export default function CourseOverview() {
                   key={module.module_id}
                   module={module}
                   lessonProgress={lessonProgress}
+                  isEnrolled={isEnrolled}
                 />
               );
             })}
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 }
